@@ -4,11 +4,14 @@ pipeline{
     environment {
         GREETING="Hello i am a greetin"
         API_KEY="http:/foo/aws_api_key"
+        PASSWORD = credentials('password')
     }
 
     stages {
         stage('Load .env'){
             steps{
+                echo 'In this step I use variables of environment'
+                echo "My private password is: ${PASSWORD}"
                 echo "${GREETING}"
             }
         }

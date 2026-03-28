@@ -26,9 +26,8 @@ Recently I do a course of CI/CD with Jenkins, now I propose to do a repository w
 
 - [x] Basic declarative pipeline (stages: build, test, deploy)
 - [x] Pipeline as Code: Jenkinsfile versioned in Git
-- [ ] Environment variables in pipelines
-- [ ] Credentials and secrets management
-- [ ] Artifacts: save and publish build results
+- [x] Environment variables in pipelines
+- [x] Credentials and secrets management
 
 ### Fase 3 — Docker agents
 
