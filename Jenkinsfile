@@ -6,7 +6,9 @@ pipeline{
     }
     stages {
         stage('Load .env'){
-            echo "${GREETING}"
+            steps{
+                echo "${GREETING}"
+            }
         }
         stage('Build'){
             steps{
