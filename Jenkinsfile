@@ -1,9 +1,11 @@
 pipeline{
     agent any
-    enviroment{
+
+    environment {
         GREETING="Hello i am a greetin"
         API_KEY="http:/foo/aws_api_key"
     }
+
     stages {
         stage('Load .env'){
             steps{
