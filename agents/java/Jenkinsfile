@@ -1,0 +1,22 @@
+pipeline{
+    agent {
+        docker { 
+            image 'python:3.11-slim' 
+        }
+    }
+    stages{
+        stage('Create'){
+            steps{
+                echo    '-- Create project --'
+                sh 'mkdir -p src tests'
+                sh 'echo "print(\"Hello from Python\")" > src/main.py'
+            }
+        }
+        stage('Test') {  
+            steps {
+                echo '-- Test Python version --'
+                sh 'python --version'  
+            }
+        }
+    }
+}
