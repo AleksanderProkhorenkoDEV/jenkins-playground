@@ -1,33 +1,70 @@
-pipeline{
+pipeline {
     agent {
         docker { 
             image 'maven:3.9.9-eclipse-temurin-21-alpine' 
         }
     }
-     stages {
+    environment {
+        MAVEN_OPTS = '-Dmaven.repo.local=/tmp/.m2/repository'
+    }
+    stages {
         stage('Setup') {
             steps {
                 echo '-- Java & Maven versions --'
                 sh 'java --version'
                 sh 'mvn --version'
+                
+                echo '-- Creating project directory in /tmp --'
+                sh '''
+                    cd /tmp
+                    mkdir -p maven-project
+                    cd maven-project
+                    echo "Directorio creado en: $(pwd)"
+                '''
             }
         }
+        
         stage('Build') {
             steps {
                 echo '-- Build with Maven --'
-                sh 'mvn clean compile'  
+                sh '''
+                    cd /tmp/maven-project
+                    echo "Creando proyecto en: $(pwd)"
+                    
+                    mvn archetype:generate \
+                        -DgroupId=com.example \
+                        -DartifactId=my-app \
+                        -DarchetypeArtifactId=maven-archetype-quickstart \
+                        -DinteractiveMode=false
+                    
+                    echo "Proyecto creado exitosamente"
+                    ls -la
+                '''
             }
         }
+        
         stage('Test') {
             steps {
                 echo '-- Run tests --'
-                sh 'mvn test'
+                sh '''
+                    cd /tmp/maven-project/my-app
+                    echo "Ejecutando tests en: $(pwd)"
+                    mvn test
+                '''
             }
         }
+        
         stage('Package') {
             steps {
                 echo '-- Create JAR/WAR --'
-                sh 'mvn package'
+                sh '''
+                    cd /tmp/maven-project/my-app
+                    echo "Empaquetando en: $(pwd)"
+                    mvn package
+                    
+                    echo "=== JAR generado ==="
+                    ls -lh target/*.jar
+                '''
             }
         }
     }
