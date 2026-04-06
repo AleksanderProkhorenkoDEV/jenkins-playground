@@ -7,6 +7,7 @@ services:
       - "8080:8080"
     volumes:
       - jenkins_volume:/var/jenkins_home
-  
+  restart: unless-stopped
+
 volumes:
-    jenkins_volume:
+  jenkins_volume:
